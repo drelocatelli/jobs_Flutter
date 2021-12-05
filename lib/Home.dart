@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
         children: [
           Text("${this._webservice}", style: TextStyle(color: Colors.grey)),
           this._jobList(),
+          ElevatedButton(onPressed: () => this._getJobs(), child: Text("Refresh"))
         ],
       ),
     );
