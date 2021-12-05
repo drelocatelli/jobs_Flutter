@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gitjobs/TelaDetails.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,12 +16,8 @@ class _HomeState extends State<Home> {
   String _webservice = "https://api.github.com/repos/devfsa/vagas/issues";
   List<dynamic> jobList = [];
 
-  void _openLink(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  void _openPage(var details) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Details(details) ));
   }
 
   void _getJobs() async {
@@ -32,7 +28,6 @@ class _HomeState extends State<Home> {
 
     setState(() {
       jobList = response;
-
     });
 
   }
@@ -44,7 +39,7 @@ class _HomeState extends State<Home> {
         itemBuilder: (context, index){
           return ListTile(
             onTap: () {
-              this._openLink(jobList[index]["html_url"].toString());
+              this._openPage(jobList[index]);
             },
             title: Text(jobList[index]["title"], style: TextStyle(color: Colors.black, fontSize: 12)),
             subtitle: Text(jobList[index]["created_at"], style: TextStyle(color: Colors.black26, fontSize: 13)),
