@@ -30,7 +30,10 @@ class _HomeState extends State<Home> {
 
     List<dynamic> response = json.decode(request.body);
 
-    jobList = response;
+    setState(() {
+      jobList = response;
+
+    });
 
   }
 
