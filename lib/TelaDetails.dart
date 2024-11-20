@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class Details extends StatefulWidget {
   // const Details({Key? key}) : super(key: key);
@@ -12,28 +12,39 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-
-
-
   @override
   Widget build(BuildContext context) {
+    markDownData() {
+      final mk = widget.detail["body"]
+          .replaceAll(new RegExp(r'(<([^>]+)>)'), '')
+          .toString();
+
+      return mk;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.detail["title"]),
         backgroundColor: Colors.black87,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              // remove codigo html
-              Text(widget.detail["body"].replaceAll(new RegExp(r'(<([^>]+)>)'), '').toString(), style: TextStyle(fontSize: 17),),
-              Text(widget.detail["html_url"].toString(), style: TextStyle(color: Colors.grey),)
-            ],
-          ),
-        )
-      ),
+          child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            // remove codigo html
+            SelectableText(
+              widget.detail["html_url"].toString(),
+              style: TextStyle(color: Colors.grey),
+            ),
+            MarkdownBody(
+              data: markDownData(),
+              selectable: true,
+              styleSheet: MarkdownStyleSheet(),
+            ),
+          ],
+        ),
+      )),
     );
   }
 }
